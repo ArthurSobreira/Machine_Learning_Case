@@ -9,6 +9,8 @@ def extract_text_from_pdf(file_stream) -> str:
   # for page in reader.pages:
   #   text += page.extract_text() or ""
 
+  # Modificar a leitura para usar tabula-py
+
   with pdfplumber.open(file_stream) as pdf:
     for page in pdf.pages:
       text += page.extract_text() + "\n"
