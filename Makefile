@@ -35,6 +35,7 @@ help:
 	@echo "$(YELLOW)make shell$(RESET)        - Abre um shell interativo dentro do container"
 	@echo "$(YELLOW)make re$(RESET)           - Rebuilda a imagem e executa"
 	@echo "$(YELLOW)make clean$(RESET)        - Remove a imagem Docker"
+	@echo "$(YELLOW)make all/make$(RESET)     - Executa os comandos build e run"
 	@echo ""
 
 build:
@@ -45,7 +46,7 @@ build:
 # -it allows for interactive terminal
 run:
 	@echo "$(CYAN)[+] Executando container...$(RESET)"
-	docker run --rm -it $(APP_NAME) 
+	docker run --rm -it $(APP_NAME)
 
 shell:
 	@echo "$(CYAN)[+] Entrando no container...$(RESET)"
