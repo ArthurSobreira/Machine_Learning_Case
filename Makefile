@@ -46,7 +46,7 @@ build:
 # -it allows for interactive terminal
 run:
 	@echo "$(CYAN)[+] Executando container...$(RESET)"
-	docker run --rm -it $(APP_NAME)
+	docker run --rm -it -p 8000:8000 $(APP_NAME)
 
 shell:
 	@echo "$(CYAN)[+] Entrando no container...$(RESET)"
