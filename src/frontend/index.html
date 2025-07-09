@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload de PDF</title>
+  <link rel="stylesheet" href="/frontend/style.css">
+</head>
+<body>
+  <h1>Case Tractian — Upload de Documentos</h1>
+  <form action="/documents" method="post" enctype="multipart/form-data">
+    <input type="file" name="files" multiple accept="application/pdf">
+    <button type="submit">Enviar PDF</button>
+  </form>
+</body>
+</html>
