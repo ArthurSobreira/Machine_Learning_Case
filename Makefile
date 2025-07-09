@@ -14,11 +14,11 @@ SRC_DIR         := src
 DOCKERFILE      := Dockerfile
 CONTAINER_WORK  := /app
 
-GREEN			= \033[32m
-RED				= \033[31m
-CYAN			= \033[36m
-YELLOW		= \033[33m
-RESET			= \033[0m
+GREEN     = \033[32m
+RED       = \033[31m
+CYAN      = \033[36m
+YELLOW    = \033[33m
+RESET     = \033[0m
 
 #------------------------------------------------------------------------------#
 #                                  TARGETS                                     #
@@ -46,7 +46,7 @@ build:
 # -it allows for interactive terminal
 run:
 	@echo "$(CYAN)[+] Executando container...$(RESET)"
-	docker run --rm -it $(APP_NAME)
+	docker run --rm -it -p 8000:8000 $(APP_NAME)
 
 shell:
 	@echo "$(CYAN)[+] Entrando no container...$(RESET)"

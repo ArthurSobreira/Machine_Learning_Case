@@ -1,19 +1,29 @@
-from core.pdf_reader import extract_text_from_pdf
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
+from src.api.upload_documents import router as documents_router
 
 
-def main():
-  # pdf_path = "/Users/arthursobreira/repos/case_tractian/case_files/LB5001.pdf"
-  pdf_path = "./LB5001.pdf" # caminho dentro do container
+def create_app() -> FastAPI:
+  """Função principal para iniciar o aplicativo FastAPI com a rota '/'."""
   
-  try:
-    with open(pdf_path, "rb") as pdf_file:
-      extracted_text = extract_text_from_pdf(pdf_file)
-      print("conteudo: ")
-      print(extracted_text)
-  except FileNotFoundError:
-    print(f"erro: {pdf_path}")
-  except Exception as e:
-    print(f"erro: {e}")
+  app = FastAPI()
+  
+  # Monta a pasta única com HTML e CSS
+  app.mount("/frontend", StaticFiles(directory="src/frontend"), name="frontend")
 
-if __name__ == "__main__":
-  main()
+  # Usa a mesma pasta para os templates
+  templates = Jinja2Templates(directory="src/frontend")
+
+  # Rota da página inicial
+  @app.get("/", response_class=HTMLResponse)
+  async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+  app.include_router(documents_router)
+  
+  return app
+
+app = create_app()
