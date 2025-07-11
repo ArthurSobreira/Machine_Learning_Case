@@ -13,7 +13,7 @@ def create_app() -> FastAPI:
   Returns:
     FastAPI: An instance of the FastAPI application.
   """
-  
+
   app = FastAPI()
   
   # Mount static files and templates
