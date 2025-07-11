@@ -18,6 +18,9 @@ async def upload_documents(files: List[UploadFile] = File(...)):
     dict: A dictionary containing the number of documents indexed and total chunks processed.
   """
 
+  if not files:
+    raise HTTPException(status_code=400, detail="No files were provided.")
+
   total_chunks = 0
   documents_indexed = 0
 
