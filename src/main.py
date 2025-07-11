@@ -3,25 +3,29 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from src.api.upload_documents import router as documents_router
+from src.api.upload_documents import documents_router
 
 
 def create_app() -> FastAPI:
-  """Função principal para iniciar o aplicativo FastAPI com a rota '/'."""
+  """
+  Main function to initialize the FastAPI application.
+  
+  Returns:
+    FastAPI: An instance of the FastAPI application.
+  """
   
   app = FastAPI()
   
-  # Monta a pasta única com HTML e CSS
+  # Mount static files and templates
   app.mount("/frontend", StaticFiles(directory="src/frontend"), name="frontend")
-
-  # Usa a mesma pasta para os templates
   templates = Jinja2Templates(directory="src/frontend")
 
-  # Rota da página inicial
+  # Define the root route
   @app.get("/", response_class=HTMLResponse)
   async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+  # Include the documents router
   app.include_router(documents_router)
   
   return app
