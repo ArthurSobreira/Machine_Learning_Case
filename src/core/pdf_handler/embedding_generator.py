@@ -1,6 +1,7 @@
 from typing import List
 from sentence_transformers import SentenceTransformer
 
+
 def generate_embeddings(chunks: List[str], model: SentenceTransformer) -> list:
   if not chunks:
     raise ValueError("No chunks available")
