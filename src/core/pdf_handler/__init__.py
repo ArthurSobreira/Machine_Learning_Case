@@ -52,7 +52,7 @@ class PDFHandler:
 
   def _generate_embeddings(self) -> None:
     """Generates vector embeddings for each chunk of text."""
-    self._embeddings = generate_embeddings(self._chunks, self._embedding_model)
+    self._embeddings = generate_embeddings(self.chunks, self._embedding_model)
 
   def _save_to_disk(self, base_path: str = "data") -> None:
     """
