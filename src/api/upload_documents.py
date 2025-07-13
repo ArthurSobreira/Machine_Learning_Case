@@ -26,18 +26,17 @@ async def upload_documents(files: List[UploadFile] = File(...)):
 
   for file in files:
     if file.content_type != "application/pdf":
-      raise HTTPException(status_code=400, detail=f"'{file.filename}' não é um PDF válido.")
+      raise HTTPException(status_code=400, detail=f"'{file.filename}' is not a valid PDF file.")
 
     try:
       file_bytes = await file.read()
       processor = PDFHandler(BytesIO(file_bytes), file.filename)
       processor.process()
-      processor.save_to_disk()
 
       total_chunks += len(processor.chunks)
       documents_indexed += 1
     except Exception as e:
-      raise HTTPException(status_code=500, detail=f"Erro ao processar '{file.filename}': {str(e)}")
+      raise HTTPException(status_code=500, detail=f"Error processing '{file.filename}': {str(e)}")
 
   return {
     "message": "Documents processed successfully",
