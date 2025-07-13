@@ -13,6 +13,7 @@ APP_NAME        := case-tractian
 SRC_DIR         := src
 DOCKERFILE      := Dockerfile
 CONTAINER_WORK  := /app
+PWD             := $(shell pwd)
 
 GREEN     = \033[32m
 RED       = \033[31m
@@ -42,7 +43,8 @@ build:
 
 run:
 	@echo "$(CYAN)[+] Executando container...$(RESET)"
-	docker run --rm -it -p 8000:8000 $(APP_NAME)
+	docker run --rm -it -p 8000:8000 \
+		-v "$(PWD)/data:/app/data" --name $(APP_NAME) $(APP_NAME)
 
 shell:
 	@echo "$(CYAN)[+] Entrando no container...$(RESET)"
@@ -51,5 +53,6 @@ shell:
 clean:
 	@echo "$(RED)[!] Removendo imagem Docker: $(APP_NAME)$(RESET)"
 	docker rmi -f $(APP_NAME) || true
+	rm -rf ./data
 
 re: clean all
