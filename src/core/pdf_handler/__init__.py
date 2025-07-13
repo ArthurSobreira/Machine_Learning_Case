@@ -1,11 +1,11 @@
 from .text_extractor import extract_text
-from .text_cleaner import clean_text
 from .text_chunker import chunk_text
 from .embedding_generator import generate_embeddings
 from .disk_saver import save_to_disk
 from sentence_transformers import SentenceTransformer
 from typing import BinaryIO, List, Dict, Any
 from datetime import datetime
+import re
 
 
 class PDFHandler:
@@ -37,7 +37,8 @@ class PDFHandler:
 
   def _clean_text(self) -> None:
     """Cleans the extracted text by removing unnecessary characters and formatting."""
-    self._text = clean_text(self._text)
+    self._text = re.sub(r'\s+', ' ', self._text)
+    self._text = re.sub(r'--- Page \d+ ---', '\n\\g<0>\n', self._text)
 
   def _chunk_text(self, chunk_size: int = 1000, chunk_overlap: int = 100) -> None:
     """
