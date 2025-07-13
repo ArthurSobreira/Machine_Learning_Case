@@ -11,6 +11,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN mkdir -p /app/data && chmod -R 777 /app/data
+
 RUN pip install --upgrade pip && \
   pip install --no-cache-dir -r requirements.txt
 

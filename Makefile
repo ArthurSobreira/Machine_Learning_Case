@@ -2,8 +2,8 @@
 #                                GENERICS                                      #
 #------------------------------------------------------------------------------#
 
-DEFAULT_GOAL: all
-.PHONY: build run shell clean re help
+DEFAULT_GOAL: help
+.PHONY: help build run shell clean re
 
 #------------------------------------------------------------------------------#
 #                                VARIABLES                                     #
@@ -13,6 +13,7 @@ APP_NAME        := case-tractian
 SRC_DIR         := src
 DOCKERFILE      := Dockerfile
 CONTAINER_WORK  := /app
+PWD             := $(shell pwd)
 
 GREEN     = \033[32m
 RED       = \033[31m
@@ -24,8 +25,6 @@ RESET     = \033[0m
 #                                  TARGETS                                     #
 #------------------------------------------------------------------------------#
 
-all: help build run
-
 help:
 	@echo ""
 	@echo "$(CYAN)Comandos disponíveis:$(RESET)"
@@ -35,25 +34,25 @@ help:
 	@echo "$(YELLOW)make shell$(RESET)        - Abre um shell interativo dentro do container"
 	@echo "$(YELLOW)make re$(RESET)           - Rebuilda a imagem e executa"
 	@echo "$(YELLOW)make clean$(RESET)        - Remove a imagem Docker"
-	@echo "$(YELLOW)make all/make$(RESET)     - Executa os comandos build e run"
+	@echo "$(YELLOW)make help$(RESET)         - Exibe esta mensagem de ajuda"
 	@echo ""
 
 build:
 	@echo "$(GREEN)[+] Buildando imagem Docker: $(APP_NAME)$(RESET)"
 	docker build -f $(DOCKERFILE) -t $(APP_NAME) .
 
-# --rm remove the container after it exits (not sure if this is necessary)
-# -it allows for interactive terminal
 run:
 	@echo "$(CYAN)[+] Executando container...$(RESET)"
-	docker run --rm -it -p 8000:8000 $(APP_NAME)
+	docker run --rm -it -p 8000:8000 \
+		-v "$(PWD)/data:/app/data" --name $(APP_NAME) $(APP_NAME)
 
 shell:
 	@echo "$(CYAN)[+] Entrando no container...$(RESET)"
-	docker run --rm -it $(APP_NAME) /bin/bash
+	docker exec -it $(shell docker ps -qf "ancestor=$(APP_NAME)") /bin/bash
 
 clean:
 	@echo "$(RED)[!] Removendo imagem Docker: $(APP_NAME)$(RESET)"
 	docker rmi -f $(APP_NAME) || true
+	rm -rf ./data
 
 re: clean all
