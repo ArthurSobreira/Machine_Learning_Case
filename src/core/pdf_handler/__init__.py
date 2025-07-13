@@ -20,15 +20,11 @@ class PDFHandler:
 
   @property
   def chunks(self) -> List[str]:
-    """
-    Returns the list of text chunks to external access.
-    """
+    """Returns the list of text chunks to external access."""
     return self._chunks
 
   def process(self) -> None:
-    """
-    Execute the complete PDF processing pipeline.
-    """
+    """Execute the complete PDF processing pipeline."""
     self._extract_text()
     self._clean_text()
     self._chunk_text()
@@ -36,15 +32,11 @@ class PDFHandler:
     self._save_to_disk()
 
   def _extract_text(self) -> None:
-    """
-    Extracts structured text from the PDF, including formatted tables.
-    """
+    """Extracts structured text from the PDF, including formatted tables."""
     self._text = extract_text(self._file_stream)
 
   def _clean_text(self) -> None:
-    """
-    Cleans the extracted text by removing unnecessary characters and formatting.
-    """
+    """Cleans the extracted text by removing unnecessary characters and formatting."""
     self._text = clean_text(self._text)
 
   def _chunk_text(self, chunk_size: int = 1000, chunk_overlap: int = 100) -> None:
@@ -58,9 +50,7 @@ class PDFHandler:
     self._chunks = chunk_text(self._text, chunk_size, chunk_overlap)
 
   def _generate_embeddings(self) -> None:
-    """
-    Generates vector embeddings for each chunk of text.
-    """
+    """Generates vector embeddings for each chunk of text."""
     self._embeddings = generate_embeddings(self._chunks, self._embedding_model)
 
   def _save_to_disk(self, base_path: str = "data") -> None:
