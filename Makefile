@@ -3,7 +3,7 @@
 #------------------------------------------------------------------------------#
 
 DEFAULT_GOAL: help
-.PHONY: build run shell clean re help
+.PHONY: help build run shell clean re
 
 #------------------------------------------------------------------------------#
 #                                VARIABLES                                     #
