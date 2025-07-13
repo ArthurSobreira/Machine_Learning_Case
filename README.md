@@ -9,51 +9,36 @@
 
 - **Method:** `POST`
 - **Endpoint:** `/documents`
-- **Description:** Returns a list of all movies registered in the system. The movies are returned with the following fields:
+- **Description:** Uploads one or more documents to be indexed:
 
-  - `id`: Unique identifier of the movie (auto-generated).
-  - `nome`: Movie name.
-  - `imagem_url`: URL of the movie image.
+  - `files`: One or more PDF files.
 
 **Example response:**
 
 ```json
-[
     {
-        "id": 1,
-        "nome": "The Godfather",
-        "imagem_url": "https://example.com/images/the-godfather.jpg"
-    },
-    {
-        "id": 2,
-        "nome": "The Matrix",
-        "imagem_url": "https://example.com/images/matrix.jpg"
-    }
-]
+        "message": "Documents processed successfully",
+        "documents_indexed": 2,
+        "total_chunks": 128
+    } 
 ```
 
 <br>
 
-## 2. Movie Details Endpoint
+## 2. Ask Question Endpoint
 
-- **Method:** `GET`
-- **Endpoint:** `/api/filmes/{id}/`
-- **Description:** Returns the details of a specific movie. The details include the following fields:
+- **Method:** `POST`
+- **Endpoint:** `/question`
+- **Description:** : Aks a question that will be answered using a LLM model:
 
-	- `id`: Unique identifier of the movie (auto-generated).
-	- `nome`: Movie name.
-	- `imagem_url`: URL of the movie image.
-	- `descricao`: Detailed description of the movie.
-	- `ano`: Movie's release year.
+     - `question`: The question should be placed at the 'question' field in the request body.
 
 **Example response:**
 
 ```json
 {
-    "id": 1,
+    "answer": "what is the pwer consumption of the motor",
     "nome": "The Godfather",
-    "imagem_url": "https://example.com/images/the-godfather.jpg",
-    "descricao": "Don Vito Corleone is the head of a powerful mafia family in New York. The story follows his son Michael...",
-    "ano": 1972
+    "imagem_url": 
 }
 ```
