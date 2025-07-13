@@ -2,8 +2,8 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from src.api.upload_documents import documents_router
-from src.api.ask_question import question_router
+from src.api.routes.upload_documents import documents_router
+from src.api.routes.ask_question import question_router
 
 
 def create_app() -> FastAPI:
