@@ -1,28 +1,33 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Body, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 # from src.core.qa.qa_session import QASession 
 
-qa_router = APIRouter()
 
-class AskRequest(BaseModel):
-  question: str
-  document_name: str
-  model: Optional[str] = "gpt-3.5"
+question_router = APIRouter()
 
-class AskResponse(BaseModel):
-  answer: str
-  references: List[str]
+@question_router.post("/question")
+async def ask_question(question: str = Body(..., embed=True)):
+  """
+  Endpoint for asking a question based on uploaded PDF(s).
 
-@qa_router.post("/ask", response_model=AskResponse)
-async def ask_question(request: AskRequest):
+  Args:
+    question (str): User's question.
+
+  Returns:
+    dict: Answer and references.
+  """
+
   try:
-    # qa = QASession(document_name=request.document_name, model_name=request.model)
-    # answer, references = qa.answer_question(request.question)
+    # qa = QASession()
+    # answer, references = qa.answer_question(question)
 
-    return AskResponse(answer=answer, references=references)
+    answer, references = "Sample answer", ["Reference 1", "Reference 2"]
 
-  except FileNotFoundError:
-    raise HTTPException(status_code=404, detail="Documento não encontrado.")
+    return {
+      "answer": answer,
+      "references": references
+    }
+
   except Exception as e:
-    raise HTTPException(status_code=500, detail=f"Erro ao processar pergunta: {str(e)}")
+    raise HTTPException(status_code=500, detail=f"Error answering question: {str(e)}")
