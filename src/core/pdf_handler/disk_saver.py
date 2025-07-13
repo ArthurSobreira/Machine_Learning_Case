@@ -18,18 +18,18 @@ def save_to_disk(
   if not os.access(doc_dir, os.W_OK):
     raise PermissionError(f"No write permission for: {doc_dir}")
 
-  # Save text
+  # Text save
   with open(os.path.join(doc_dir, "text.txt"), "w", encoding="utf-8") as f:
     f.write(text)
 
-  # Save chunks
+  # Chunks save
   with open(os.path.join(doc_dir, "chunks.json"), "w", encoding="utf-8") as f:
     json.dump(chunks, f, indent=2, ensure_ascii=False)
 
-  # Save embeddings
+  # Embeddings save
   with open(os.path.join(doc_dir, "embeddings.pkl"), "wb") as f:
     pickle.dump(embeddings, f)
 
-  # Save metadata
+  # Metadata save
   with open(os.path.join(doc_dir, "metadata.json"), "w", encoding="utf-8") as f:
     json.dump(metadata, f, indent=2)
