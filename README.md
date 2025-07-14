@@ -18,7 +18,7 @@ For more information about the API Specifications, you can access it [README](sr
 ### Requirements
 
 - [Docker](https://www.docker.com/) and [Make](https://www.gnu.org/software/make/) installed (*uvicorn* if you want to test locally)
-- An **OpenAI API Key** (to be added in a `.env` file, at the root of the repository), the key should be something like:
+- An **OpenAI API Key** (to be added in a `.env` file, at the root of the repository), the key should be like:
 
 ```bash
   OPENAI_API_KEY=sk-proj-hyzOILi3J...
