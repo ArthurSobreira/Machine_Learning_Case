@@ -11,7 +11,7 @@ def save_to_disk(
     chunks: List[str],
     embeddings: list,
     metadata: Dict[str, Any]
-) -> None:
+  ) -> None:
 
   doc_dir = os.path.join(base_path, filename.replace(".pdf", ""))
   os.makedirs(doc_dir, exist_ok=True)
