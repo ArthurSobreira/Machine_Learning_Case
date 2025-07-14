@@ -41,13 +41,7 @@ class PDFHandler:
     self._text = re.sub(r'--- Page \d+ ---', '\n\\g<0>\n', self._text)
 
   def _chunk_text(self, chunk_size: int = 1000, chunk_overlap: int = 100) -> None:
-    """
-    Split the text into semantic chunks.
-    
-    Args:
-      chunk_size (int): The maximum size of each chunk.
-      chunk_overlap (int): The number of overlapping characters between chunks.
-    """
+    """Split the text into semantic chunks."""
     self._chunks = chunk_text(self._text, chunk_size, chunk_overlap)
 
   def _generate_embeddings(self) -> None:
@@ -55,12 +49,8 @@ class PDFHandler:
     self._embeddings = generate_embeddings(self.chunks, self._embedding_model)
 
   def _save_to_disk(self, base_path: str = "data") -> None:
-    """
-    Save the processed PDF data to disk.
-    
-    Args:
-      base_path (str): The base directory where the data will be saved.
-    """
+    """Save the processed PDF data to disk."""
+
     self._metadata = {
       "filename": self._filename,
       "pages": self._text.count("--- Page"),
