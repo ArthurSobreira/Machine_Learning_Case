@@ -38,7 +38,12 @@ class QAHandler:
     return answer, top_chunks
 
   def _generate_question_embedding(self, question: str) -> None:
-    """Generate an embedding for the user's question."""
+    """
+    Generate an embedding for the user's question.
+    
+    Args:
+      question (str): The user's question to be embedded.
+    """
     model = self._embedding_model
     self._question_embedding = model.encode(
       question,
