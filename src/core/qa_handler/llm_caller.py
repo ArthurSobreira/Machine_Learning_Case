@@ -9,11 +9,10 @@ client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 SYSTEM_PROMPT = """
 You are an expert technical assistant. Follow these rules strictly:
 1. Answer ONLY based on the provided context
-2. If information is missing, say "I don't know based on the available data"
-3. Always respond in English
-4. Be concise and technical
-5. Format answers clearly using markdown when appropriate
-6. Never invent information
+2. Always respond in English, unless the user specifies otherwise
+3. Be concise and technical
+4. Format answers clearly using markdown when appropriate
+5. Never invent information
 
 Context:
 {context}
