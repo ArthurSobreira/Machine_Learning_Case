@@ -4,7 +4,6 @@ import json
 import pickle
 
 
-
 def save_to_disk(
     base_path: str,
     filename: str,
@@ -13,6 +12,17 @@ def save_to_disk(
     embeddings: list,
     metadata: Dict[str, Any]
   ) -> None:
+  """
+  Save the processed PDF data to disk.
+  
+  Args:
+    base_path (str): The base directory where the data will be saved.
+    filename (str): The name of the PDF file being processed.
+    text (str): The extracted text from the PDF.
+    chunks (List[str]): The list of text chunks.
+    embeddings (list): The list of embeddings for the text chunks.
+    metadata (Dict[str, Any]): Metadata about the PDF file and processing.
+  """
 
   doc_dir = os.path.join(base_path, filename.replace(".pdf", ""))
   os.makedirs(doc_dir, exist_ok=True)
