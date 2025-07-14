@@ -17,7 +17,7 @@ For more information about the API Specifications, you can access it [README](sr
 
 ### Requirements
 
-- [Docker](https://www.docker.com/) and [Make](https://www.gnu.org/software/make/) installed;
+- [Docker](https://www.docker.com/) and [Make](https://www.gnu.org/software/make/) installed (*uvicorn* if you want to test locally)
 - An **OpenAI API Key** (to be added in a `.env` file, at the root of the repository), if you want, you can use this one:
 
 ```bash
@@ -32,13 +32,13 @@ For more information about the API Specifications, you can access it [README](sr
   $> git clone git@github.com:ArthurSobreira/Machine_Learning_Case.git
   ```
 
-* Build the Docker Image
+* Build the Docker Image:
 
   ```bash
   $> make build
   ```
 
-* Run the Project
+* Run the Project:
 
   ```bash
   $> make run
