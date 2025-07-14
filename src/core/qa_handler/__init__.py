@@ -1,7 +1,7 @@
 from sentence_transformers import SentenceTransformer
 from .loader import load_from_disk
 from .chunk_selector import select_top_k_chunks
-# from .llm_caller import call_model
+from .llm_caller import call_model
 from typing import List
 
 
@@ -27,29 +27,15 @@ class QAHandler:
     self._generate_question_embedding(question)
     self._load_from_disk()
 
-    # print(f"Question: {question}")
-    # print(f"chunks loaded: {len(self._chunks)}, {self._chunks[:3]}")
-    # print(f"embeddings loaded: {len(self._embeddings)}, {self._embeddings[:3]}")
-
     if not self._chunks or not self._embeddings:
       raise RuntimeError("No chunks or embeddings loaded. Call load_from_disk() first.")
 
     top_chunks = select_top_k_chunks(self._question_embedding, self._embeddings, self._chunks)
     context = "\n".join(top_chunks)
 
-    # answer = call_model(
-    #   question=question, 
-    #   context=context,
-    #   model_name=self._model_name
-    # )
-  
-    answer = "This is a dummy answer. Replace with actual model call."
-  
+    answer = call_model(question=question, context=context)
+    
     return answer, top_chunks
-
-  def _load_from_disk(self) -> None:
-    """Load processed chunks and embeddings from disk."""
-    self._chunks, self._embeddings = load_from_disk()
 
   def _generate_question_embedding(self, question: str) -> None:
     """Generate an embedding for the user's question."""
@@ -59,3 +45,7 @@ class QAHandler:
       show_progress_bar=True,
       convert_to_tensor=False
     ).tolist()
+
+  def _load_from_disk(self) -> None:
+    """Load processed chunks and embeddings from disk."""
+    self._chunks, self._embeddings = load_from_disk()
