@@ -1,9 +1,31 @@
-import os
+from dotenv import load_dotenv
 import openai
+import os
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+load_dotenv()
 
-def call_model(question: str, context: str) -> str:
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+SYSTEM_PROMPT = """
+You are an expert technical assistant. Follow these rules strictly:
+1. Answer ONLY based on the provided context
+2. If information is missing, say "I don't know based on the available data"
+3. Always respond in English
+4. Be concise and technical
+5. Format answers clearly using markdown when appropriate
+6. Never invent information
+
+Context:
+{context}
+"""
+
+def call_model(
+    question: str,
+    context: str,
+    model: str = "gpt-3.5-turbo",
+    temperature: float = 0.1,
+    max_tokens: int = 1024
+) -> str:
   """
   Sends a question and context to LLM and returns the generated answer.
 
@@ -15,24 +37,26 @@ def call_model(question: str, context: str) -> str:
     str: Generated answer from the LLM
   """
 
+  if not client.api_key:
+    raise ValueError("OPENAI_API_KEY environment variable not set")
+
+  formatted_prompt = SYSTEM_PROMPT.format(context=context)
+
   try:
-    system_prompt = (
-      "Você é um assistente técnico. Use o contexto abaixo para responder à pergunta. "
-      "Se a resposta não estiver presente no contexto, diga que não sabe com base nos dados disponíveis.\n\n"
-      f"Context:\n{context}"
-    )
-
-    response = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
+    response = client.chat.completions.create(
+      model=model,
       messages=[
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": question},
+        {"role": "system", "content": formatted_prompt},
+        {"role": "user", "content": question}
       ],
-      temperature=0.2,
-      max_tokens=512,
+      temperature=temperature,
+      max_tokens=max_tokens,
+      top_p=0.9,
+      frequency_penalty=0.1,
+      presence_penalty=0.1,
     )
 
-    return response.choices[0].message["content"].strip()
+    return response.choices[0].message.content.strip()
 
   except Exception as e:
-    raise RuntimeError(f"Error calling LLM: {str(e)}")
+    raise RuntimeError(f"LLM API error: {str(e)}") from e
