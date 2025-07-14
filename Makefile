@@ -3,7 +3,7 @@
 #------------------------------------------------------------------------------#
 
 DEFAULT_GOAL: help
-.PHONY: help build run shell clean re
+.PHONY: help build run shell test clean re
 
 #------------------------------------------------------------------------------#
 #                                VARIABLES                                     #
@@ -34,6 +34,7 @@ help:
 	@echo "$(YELLOW)make shell$(RESET)        - Abre um shell interativo dentro do container"
 	@echo "$(YELLOW)make re$(RESET)           - Rebuilda a imagem e executa"
 	@echo "$(YELLOW)make clean$(RESET)        - Remove a imagem Docker"
+	@echo "$(YELLOW)make test$(RESET)         - Executa o projeto fora do container"
 	@echo "$(YELLOW)make help$(RESET)         - Exibe esta mensagem de ajuda"
 	@echo ""
 
@@ -49,6 +50,10 @@ run:
 shell:
 	@echo "$(CYAN)[+] Entrando no container...$(RESET)"
 	docker exec -it $(shell docker ps -qf "ancestor=$(APP_NAME)") /bin/bash
+
+test:
+	@echo "$(YELLOW)[*] Executando testes...$(RESET)"
+	uvicorn src.main:app --host 127.0.0.1 --port 8000 --reload
 
 clean:
 	@echo "$(RED)[!] Removendo imagem Docker: $(APP_NAME)$(RESET)"
