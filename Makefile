@@ -34,7 +34,6 @@ help:
 	@echo "$(YELLOW)make shell$(RESET)        - Open a shell in the running container"
 	@echo "$(YELLOW)make re$(RESET)           - Remove the Docker image and rebuild it"
 	@echo "$(YELLOW)make clean$(RESET)        - Remove the Docker image and data directory"
-	@echo "$(YELLOW)make test$(RESET)         - Run the test server with Uvicorn"
 	@echo "$(YELLOW)make help$(RESET)         - Display this help message"
 	@echo ""
 
