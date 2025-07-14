@@ -33,6 +33,14 @@
 
   - `question`: The question should be placed at the 'question' field in the request body.
 
+**Example request:**
+
+```json
+{
+  "question": "What is the power consumption of the motor?"
+}
+```
+
 **Example response:**
 
 ```json
