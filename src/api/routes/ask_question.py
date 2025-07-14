@@ -1,6 +1,4 @@
 from fastapi import APIRouter, Body, HTTPException
-from pydantic import BaseModel
-from typing import List, Optional
 from src.core.qa_handler import QAHandler
 
 
@@ -19,16 +17,8 @@ async def ask_question(question: str = Body(..., embed=True)):
   """
 
   try:
-    # print(f"Received question: {question}")
-
     qa_handler = QAHandler()
     answer, references = qa_handler.answer_question(question)
-
-    # answer, references = "Sample answer", ["Reference 1", "Reference 2"]
-
-    # print(f"Question: {question}")
-    # print(f"Answer: {answer}")
-    # print(f"References: {references}")
 
     return {
       "answer": answer,
