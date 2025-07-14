@@ -15,6 +15,7 @@ def load_from_disk(base_path: str = "data") -> Tuple[List[str], List[List[float]
       - List of all text chunks (List[str])
       - List of embeddings (List[List[float]])
   """
+
   all_chunks: List[str] = []
   all_embeddings: List[List[float]] = []
 
