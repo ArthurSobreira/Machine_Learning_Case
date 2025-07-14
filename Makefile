@@ -3,7 +3,7 @@
 #------------------------------------------------------------------------------#
 
 DEFAULT_GOAL: help
-.PHONY: help build run shell clean re
+.PHONY: help build run shell test clean re
 
 #------------------------------------------------------------------------------#
 #                                VARIABLES                                     #
@@ -27,31 +27,35 @@ RESET     = \033[0m
 
 help:
 	@echo ""
-	@echo "$(CYAN)Comandos disponíveis:$(RESET)"
+	@echo "$(CYAN)Available Commands:$(RESET)"
 	@echo ""
-	@echo "$(YELLOW)make build$(RESET)        - Builda a imagem Docker ($(APP_NAME))"
-	@echo "$(YELLOW)make run$(RESET)          - Executa o container junto com a main.py"
-	@echo "$(YELLOW)make shell$(RESET)        - Abre um shell interativo dentro do container"
-	@echo "$(YELLOW)make re$(RESET)           - Rebuilda a imagem e executa"
-	@echo "$(YELLOW)make clean$(RESET)        - Remove a imagem Docker"
-	@echo "$(YELLOW)make help$(RESET)         - Exibe esta mensagem de ajuda"
+	@echo "$(YELLOW)make build$(RESET)        - Build the Docker image for the project"
+	@echo "$(YELLOW)make run$(RESET)          - Execute the Docker container with the project"
+	@echo "$(YELLOW)make shell$(RESET)        - Open a shell in the running container"
+	@echo "$(YELLOW)make re$(RESET)           - Remove the Docker image and rebuild it"
+	@echo "$(YELLOW)make clean$(RESET)        - Remove the Docker image and data directory"
+	@echo "$(YELLOW)make help$(RESET)         - Display this help message"
 	@echo ""
 
 build:
-	@echo "$(GREEN)[+] Buildando imagem Docker: $(APP_NAME)$(RESET)"
+	@echo "$(GREEN)[+] Building Docker image: $(APP_NAME)$(RESET)"
 	docker build -f $(DOCKERFILE) -t $(APP_NAME) .
 
 run:
-	@echo "$(CYAN)[+] Executando container...$(RESET)"
+	@echo "$(CYAN)[+] Executing container: $(APP_NAME)$(RESET)"
 	docker run --rm -it -p 8000:8000 \
 		-v "$(PWD)/data:/app/data" --name $(APP_NAME) $(APP_NAME)
 
 shell:
-	@echo "$(CYAN)[+] Entrando no container...$(RESET)"
+	@echo "$(CYAN)[+] Opening shell in container: $(APP_NAME)$(RESET)"
 	docker exec -it $(shell docker ps -qf "ancestor=$(APP_NAME)") /bin/bash
 
+test:
+	@echo "$(YELLOW)[*] Running test server: $(APP_NAME)$(RESET)"
+	uvicorn src.main:app --host 127.0.0.1 --port 8000 --reload
+
 clean:
-	@echo "$(RED)[!] Removendo imagem Docker: $(APP_NAME)$(RESET)"
+	@echo "$(RED)[!] Cleaning up Docker image and data directory$(RESET)"
 	docker rmi -f $(APP_NAME) || true
 	rm -rf ./data
 
